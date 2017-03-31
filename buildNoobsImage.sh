@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 # Get Options
 
 # This should be done with getopt or by scanning the server. For now configure statically.
@@ -74,22 +74,24 @@ dd if=/dev/zero of=noobs_images/$NOOBS_IMG bs=1024 count=$IMG_FILE_SIZE
 ############################################################
 # 4. Create a loopback device that points to the file
 ############################################################
-echo "Creating loopback device on /dev/loop5"
-sudo losetup /dev/loop5 noobs_images/$NOOBS_IMG
+loopDevice=`losetup -f`
+echo "Creating loopback device on" $loopDevice
+sudo losetup $loopDevice noobs_images/$NOOBS_IMG
 
 ############################################################
 # 5. Create a 100% FAT32 Parition In The File
 ############################################################
 echo "Partitioning the loopback device"
-sudo parted -s /dev/loop5 mklabel msdos
-sudo parted -s /dev/loop5 -a optimal mkpart primary fat32 0% 100%
-sudo parted -s /dev/loop5 set 1 boot on
+sudo parted -s $loopDevice mklabel msdos
+sudo parted -s $loopDevice -a optimal mkpart primary fat32 0% 100%
+sudo parted -s $loopDevice set 1 boot on
 
 ############################################################
 # 6. Format The Partition
 ############################################################
 echo "Formatting the partition"
-sudo mkfs.msdos /dev/loop5p1
+p1="p1"
+sudo mkfs.msdos $loopDevice$p1
 
 ############################################################
 # 7. Mount the New Filesystem / Partition
@@ -97,7 +99,7 @@ sudo mkfs.msdos /dev/loop5p1
 echo "Mounting the filesystem"
 sudo rm -rf /mnt/NOOBS
 sudo mkdir /mnt/NOOBS
-sudo mount /dev/loop5p1 /mnt/NOOBS
+sudo mount $loopDevice$p1 /mnt/NOOBS
 
 ############################################################
 # 8. Unzip NOOBS into the New Filesystem
@@ -118,7 +120,7 @@ sudo umount /mnt/NOOBS
 # 10. Detach The Loopback Driver From The File
 ############################################################
 echo "Detach from the loopback driver"
-sudo losetup -d /dev/loop5
+sudo losetup -d $loopDevice
 
 ############################################################
 # 11. Happy Days. We're Done.
