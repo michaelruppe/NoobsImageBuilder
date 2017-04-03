@@ -21,11 +21,7 @@ if [ ! -d noobs_zips ]
 then
   mkdir noobs_zips
 fi
-# Make a place to hold noobs extracted images
-if [ ! -d noobs_extracts ]
-then
-  mkdir noobs_extracts
-fi
+
 # Make a place to hold created noobs images files
 if [ ! -d noobs_images ]
 then
@@ -35,7 +31,7 @@ fi
 ##############################################################
 # 1. Get NOOBS From Raspi Foundation
 ##############################################################
-if [ -f noobs_zips/NOOBS_v2_3_0.zip ]
+if [ -f noobs_zips/$NOOBS_FILE ]
 then
    echo "Already Downloaded NOOBS Image ... Moving On ..."
 else
@@ -45,21 +41,12 @@ else
 fi
 
 
-##############################################################
-# 2. Unzip Noobs (Temporary)
-##############################################################
-NOOBS_UNZIP_DIR="noobs_extracts/NOOBS_$NOOBS_VERSION"
-rm -rf $NOOBS_UNZIP_DIR
-mkdir $NOOBS_UNZIP_DIR
-pushd $NOOBS_UNZIP_DIR
-unzip ../../noobs_zips/$NOOBS_FILE
-popd
-
 ############################################################
-# 3. Work Out How Big NOOBS Is.
+# 2. Work Out How Big NOOBS Is.
 #    Add 20% for file system overheads.
 ############################################################
-IMG_FILE_SIZE=$(du -s --block-size=1024 $NOOBS_UNZIP_DIR | awk -e '{print $1}')
+# Get uncompressed size in kB
+IMG_FILE_SIZE=$(unzip -l noobs_zips/$NOOBS_FILE | tail -n 1 | awk -e '{print int($1/1024)}')
 IMG_FILE_SIZE=$(echo $IMG_FILE_SIZE | awk -e '{print int($1*1.2)}')
 IMG_FILE_SIZE_HUMAN=$(echo $IMG_FILE_SIZE | awk -e '{print $1/(1024*1024)}')
 echo "NOOBS Image file will be $IMG_FILE_SIZE_HUMAN G"
