@@ -59,7 +59,7 @@ popd
 # 3. Work Out How Big NOOBS Is.
 #    Add 20% for file system overheads.
 ############################################################
-IMG_FILE_SIZE=$(du -s --block-size=1024 noobs_zips | awk -e '{print $1}')
+IMG_FILE_SIZE=$(du -s --block-size=1024 $NOOBS_UNZIP_DIR | awk -e '{print $1}')
 IMG_FILE_SIZE=$(echo $IMG_FILE_SIZE | awk -e '{print int($1*1.2)}')
 IMG_FILE_SIZE_HUMAN=$(echo $IMG_FILE_SIZE | awk -e '{print $1/(1024*1024)}')
 echo "NOOBS Image file will be $IMG_FILE_SIZE_HUMAN G"
