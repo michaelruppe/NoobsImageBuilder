@@ -102,6 +102,7 @@ popd
 ############################################################
 echo "Unmounting ..."
 sudo umount /mnt/NOOBS
+sudo rm -rf /mnt/NOOBS
 
 ############################################################
 # 10. Detach The Loopback Driver From The File
