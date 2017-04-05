@@ -33,7 +33,7 @@ fi
 ##############################################################
 if [ -f noobs_zips/$NOOBS_FILE ]
 then
-   echo "Already Downloaded NOOBS Image ... Moving On ..."
+   echo "Already Downloaded NOOBS .zip ... Moving On ..."
 else
    DNLD_TARGET=$NOOBS_DNLD_SERVER/$NOOBS_FOLDER/$NOOBS_FILE
    echo "Downloading NOOBS from $DNLD_TARGET"
