@@ -46,9 +46,9 @@ fi
 #    Add 20% for file system overheads.
 ############################################################
 # Get uncompressed size in kB
-IMG_FILE_SIZE=$(unzip -l noobs_zips/$NOOBS_FILE | tail -n 1 | awk -e '{print int($1/1024)}')
-IMG_FILE_SIZE=$(echo $IMG_FILE_SIZE | awk -e '{print int($1*1.2)}')
-IMG_FILE_SIZE_HUMAN=$(echo $IMG_FILE_SIZE | awk -e '{print $1/(1024*1024)}')
+IMG_FILE_SIZE=$(unzip -l noobs_zips/$NOOBS_FILE | tail -n 1 | awk '{print int($1/1024)}')
+IMG_FILE_SIZE=$(echo $IMG_FILE_SIZE | awk '{print int($1*1.2)}')
+IMG_FILE_SIZE_HUMAN=$(echo $IMG_FILE_SIZE | awk '{print $1/(1024*1024)}')
 echo "NOOBS Image file will be $IMG_FILE_SIZE_HUMAN G"
 
 ############################################################
