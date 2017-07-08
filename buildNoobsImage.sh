@@ -2,9 +2,9 @@
 # Get Options
 
 # This should be done with getopt or by scanning the server. For now configure statically.
-NOOBS_VERSION="v2_3_0"
+NOOBS_VERSION="v2_4_1"
 # This stuff should be calculated somehow
-NOOBS_FOLDER="NOOBS-2017-03-03"
+NOOBS_FOLDER="NOOBS-2017-06-23"
 
 # This Stuff should never change
 NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
