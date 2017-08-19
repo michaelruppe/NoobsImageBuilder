@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+# Any subsequent error will cause the script to halt immediately.
 
 # This should never change
 NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
@@ -9,21 +11,17 @@ NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
 #    Very sensitive to version/date formatting. Consider
 #    making more robust.
 ##############################################################
-# Fetch download page html - save into temp file
-curl -Lo data $NOOBS_DNLD_SERVER
+DATA="$(curl -L $NOOBS_DNLD_SERVER)"
 # Find the latest release date (assumes "NOOBS-YYYY-MM-DD" format)
-NOOBS_FOLDER=$(grep -o 'NOOBS-[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]' data | tail -1)
+NOOBS_FOLDER=$(echo "$DATA" | grep -o 'NOOBS-[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]' | tail -1)
 
 # Read in the NOOBS version number from latest release
-curl -Lo reldata $NOOBS_DNLD_SERVER"/"$NOOBS_FOLDER
-NOOBS_VERSION=$(grep -o 'v[0-9]_[0-9]_[0-9]' reldata | tail -1)
+DATA="$(curl -L $NOOBS_DNLD_SERVER"/"$NOOBS_FOLDER)"
+NOOBS_VERSION=$(echo "$DATA" | grep -o 'v[0-9]_[0-9]_[0-9]' | tail -1)
 
 # Shortcut Variables
 NOOBS_FILE="NOOBS_$NOOBS_VERSION.zip"
 NOOBS_IMG="NOOBS_$NOOBS_VERSION.img"
-
-# Cleanup temp files
-rm data reldata
 
 
 ##############################################################
@@ -47,7 +45,7 @@ fi
 ##############################################################
 if [ -f noobs_zips/$NOOBS_FILE ]
 then
-   echo "Already Downloaded NOOBS .zip ... Moving On ..."
+   echo "Already Downloaded $NOOBS_FILE ... Moving On ..."
 else
    DNLD_TARGET=$NOOBS_DNLD_SERVER/$NOOBS_FOLDER/$NOOBS_FILE
    echo "Downloading NOOBS from $DNLD_TARGET"
