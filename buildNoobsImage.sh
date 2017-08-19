@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
-# Any subsequent error will cause the script to halt immediately.
+
 
 # This should never change
 NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
@@ -13,11 +12,11 @@ NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
 ##############################################################
 DATA="$(curl -L $NOOBS_DNLD_SERVER)"
 # Find the latest release date (assumes "NOOBS-YYYY-MM-DD" format)
-NOOBS_FOLDER=$(echo "$DATA" | grep -o 'NOOBS-[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]' | tail -1)
+NOOBS_FOLDER=$(echo "$DATA" | grep -oP 'NOOBS-\d+-\d+-\d+' | tail -1)
 
 # Read in the NOOBS version number from latest release
 DATA="$(curl -L $NOOBS_DNLD_SERVER"/"$NOOBS_FOLDER)"
-NOOBS_VERSION=$(echo "$DATA" | grep -o 'v[0-9]_[0-9]_[0-9]' | tail -1)
+NOOBS_VERSION=$(echo "$DATA" | grep -oP 'v\d+_\d+_\d+' | tail -1)
 
 # Shortcut Variables
 NOOBS_FILE="NOOBS_$NOOBS_VERSION.zip"
