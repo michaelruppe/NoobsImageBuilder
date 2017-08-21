@@ -7,8 +7,6 @@ NOOBS_DNLD_SERVER="http://downloads.raspberrypi.org/NOOBS/images"
 
 ##############################################################
 # 0. Determine latest release
-#    Very sensitive to version/date formatting. Consider
-#    making more robust.
 ##############################################################
 DATA="$(curl -L $NOOBS_DNLD_SERVER)"
 # Find the latest release date (assumes "NOOBS-YYYY-MM-DD" format)
