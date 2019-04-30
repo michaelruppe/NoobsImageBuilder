@@ -4,7 +4,7 @@ This tool downloads the latest version of the NOOBS distribution from the RASPI 
 # How to create a NOOBS image
 Run the script - the entire process in now automated.
 
-You can run the script *without* actually cloning the repo by executing the following command:
+You can run the script without cloning the repo by executing the following command:
 `curl -L https://raw.githubusercontent.com/michaelruppe/NoobsImageBuilder/master/buildNoobsImage.sh | bash`
 
 #
